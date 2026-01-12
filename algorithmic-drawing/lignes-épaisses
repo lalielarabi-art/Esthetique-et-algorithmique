@@ -1,0 +1,29 @@
+void setup() {
+  size(640, 400);
+  colorMode(HSB, 260, 100, 100);
+  lign();
+}
+
+void lign(){
+
+int N =0 ;
+int X =width-1;
+int Y =height-1;
+int D = 0;
+while (N<Y){
+  
+  D=D+1;
+  strokeWeight(D); 
+  
+  stroke(N % 260, 100 , 100);
+  
+  N=N+D+1;
+  X=X-D-10;             
+  Y=Y-D-10;
+  
+  line(N, N, N, Y);
+  line(N, Y, X, Y);
+  line(X, Y, X, N);
+  line(X, N, N, N);
+}
+}
