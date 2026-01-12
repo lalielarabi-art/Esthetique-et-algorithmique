@@ -8,4 +8,4 @@ J’ai donc demandé de l’aide à l’IA et utilisé les fonctions pushMatrix(
 
 J'ai égalment utilisé la fonction lerpColor pour le dégradé entre les pétales.
 
-Les fleurs sont alignées une grille et espacés selon la largeur et la hauteur de la page. Elles sont alternés selon leur type afin de varier les formes et les couleurs dans le parterre.
+Les fleurs sont alignées sur une grille et espacése selon la largeur et la hauteur de la page. Elles sont alternées selon leur type afin de varier les formes et les couleurs dans le parterre.
