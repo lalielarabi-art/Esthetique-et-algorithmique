@@ -1,0 +1,101 @@
+void setup(){
+  size(640,400);
+  background(197, 255, 176
+);
+  flowerbed();
+}
+
+float t = 0;
+void draw(){
+  background(197, 255, 176); 
+  flowerbed();
+  t += 0.09; 
+}
+
+void flower1(float x ,float y, float size, float t){ //dessin d'uen fleur à 8 pétales
+  int petals=12;
+
+  
+  fill(242, 247, 54);
+  ellipse(x,y,size/2,size/2);
+    
+for (int i=0; i<petals; ++i){ 
+    pushMatrix();          
+    translate(x, y);        
+    rotate((PI/6)*i);          
+    
+    color c1 = color(250, 171, 70);
+    color c2 = color(207, 139, 60);     
+    float ratio = (i + 0.5*sin(t)) / petals; 
+    fill(lerpColor(c1, c2, ratio));
+    float pulse = size/2 * (0.7 + 0.15 * sin(0.5*t));
+    ellipse(size/2, 0, pulse, pulse/3); // pétale orienté vers l'extérieur
+    popMatrix();
+   
+}
+}
+
+void flower2(float x, float y, float size, float t) {
+  int petals = 12;
+ 
+  fill(242, 247, 54);
+  ellipse(x, y, size/3, size/3);
+
+  for (int i = 0; i < petals; i++) {
+    pushMatrix();
+    translate(x, y);  
+    rotate((PI/6)*i);
+  
+    color c1 = color(158, 0, 250);
+    color c2 = color(255, 66, 246);     
+    float ratio = (i + 0.5*sin(t)) / petals; 
+    fill(lerpColor(c1, c2, ratio));
+    float pulse = size/2 * (0.7 + 0.15 * sin(t));
+    ellipse(size/2, 0, 1.5*pulse, pulse/3);
+    popMatrix();
+  }
+}
+
+void flower3(float x, float y, float size, float t) {
+  int petals = 12;
+
+  fill(242, 247, 54);
+  ellipse(x, y, size/3, size/3);
+
+  for (int i = 0; i < petals; i++) {
+    pushMatrix();
+    translate(x, y);
+    rotate((PI/6)*i);
+    
+    color c1 = color(77, 33, 0);
+    color c2 = color(166, 72, 5);  
+    float ratio = (i + 0.5*sin(t)) /petals; 
+    fill(lerpColor(c1, c2, ratio));
+    float pulse = size * (0.6 + 0.1 * sin(0.25*t));
+    ellipse(size/2, 0, pulse, pulse/3);
+    popMatrix();
+  }
+}
+    
+
+void flowerbed() {   //dessin du parterre de fleur
+  int column = 25;
+  int lign = 13;
+  float spaceX = width / (column+1);
+  float spaceY = height / (lign+1);
+  
+
+  for (int i = 0; i < column; i+=2) {
+    for (int j = 0; j < lign; j+=2) {
+      float x = spaceX*(i+1);
+      float y = spaceY*(j+1);
+      float size = 30; 
+      
+      int type = (i+j)%3;
+      if (type == 0) flower3(x, y, size, t);
+      else if (type == 1) flower2(x, y, size, t);
+      else flower1(x, y, size, t);
+      
+    }
+  }
+}
