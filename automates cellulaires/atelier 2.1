@@ -1,0 +1,75 @@
+int[][] grid;
+
+void setup(){
+  size(600,600);
+    grid = new int[60][60];
+  
+  for (int i=0;i<60;++i){    //création d'une grille de cellules saines
+    for (int j=0;j<60;++j){
+    grid[i][j]=0;
+  }
+ }
+ 
+ for (int i = 0; i < 50; i++) { //contamiantion aléatoire de certaines cellules
+    int x = int(random(60));
+    int y = int(random(60));
+    grid[x][y] = 1;
+  }
+}
+
+void draw(){
+  newGrid();
+  infection();
+}
+
+int infectedNeighbors(int x, int y){  //compte du nombre de voisin infecté
+  int k=0;
+  for(int i=-1; i<=1;++i){
+    for(int j=-1; j<=1;++j){
+      
+  if (i==0 && j==0) continue; // si c'est la cellule qu'on regarde
+  
+  if (x+i >= 0 && x+i < 60 && y+j >= 0 && y+j < 60){  // pour les cellules au bord de la grille
+  if ( grid[x+i][y+j]==1){ 
+    k=k+1;  }
+  
+      }
+    }
+  }
+  
+  return k;
+}
+
+void newGrid(){
+    for (int i=0;i<60;++i){    
+      for (int j=0;j<60;++j){
+      
+        if (grid[i][j]==1){  //cellule malade rouge
+          fill(255,0,0);}
+         else { fill(255,255,255);}  //cellule saine blanche
+      rect(i * 10, j *10, 10, 10);
+    }
+}
+}
+
+void infection(){
+  
+  for (int i=0;i<60;++i){    
+    for (int j=0;j<60;++j){
+         
+  float p= 0.005;
+  int k= infectedNeighbors(i,j);
+  float P = min(1, p*k);  // P est entre 0 et 1
+  
+  if ( grid[i][j]==1){  // si dejà infectée elle le reste
+    grid[i][j]=1;
+  }
+  else{
+    if (P>random(1)){    // si la proba P est supérieure à un nombre aléatoire entre 0 et 1 alors la cellule est infectée
+      grid[i][j]=1;
+    }
+    else{ grid[i][j]=0;}  // elle reste saine 
+   } 
+ } 
+}
+}
