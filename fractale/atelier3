@@ -1,0 +1,54 @@
+float angle;
+float level;
+
+void setup(){
+  size(1600,600);
+}
+
+void draw(){
+   background(219, 244, 255);
+ 
+   angle=map(mouseX, 0, width, 0,PI/6); // choix de l'angle des branches en fonction de la position x de la souris
+   level=map(mouseY,0,height, 0,15); // choix du nombre de niveau de branches en fonction de la position y de la souris
+   
+   translate((width/2),height); //on part d'en bas au centre de la page pour le tronc
+   branch(150,level);
+     
+}
+
+
+void branch(float len, float level){
+ 
+  strokeWeight(map(level, 0, 15, 1, 8)); //plus les branches sont loin du tronc plus elles sont fines
+  stroke(97, 25, 0);
+  line(0,0,0, -len);  //dessine la branche 
+  translate(0, -len);  //deplace l'origne au bout de la branche crée
+
+
+  if (level <= 0) {
+    pushMatrix();
+    noStroke();
+    for (int i = 0; i < 4; i++) {
+      if (i % 2 == 0) {fill(31, 97, 0, 200);  ellipse(sin(frameCount*0.1), 0, 4, 16); }          // feuille verte
+      else {fill(255,  130 , 200, 200); ellipse(sin(frameCount*0.1), 0, 5, 5); }   // fleur rose
+
+    }
+    popMatrix();
+  } 
+
+
+  
+  if (level>0){
+    
+    float wind = sin(frameCount*0.05 + level*0.3 ) * 0.01; // vent
+    
+     int nbBranches = int(map(level, 0,15, 2, 4)); //plus on descend de niveau plus il y a de branches et le motif fractale se répète
+ 
+     for(int i = 0; i < nbBranches; i++){
+        pushMatrix();
+        rotate(map(i, 0, nbBranches-1, -angle+wind, angle+wind));
+        branch(len * 0.7, level-1);
+        popMatrix();
+      }
+  }
+}
