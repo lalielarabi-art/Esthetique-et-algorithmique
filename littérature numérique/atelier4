@@ -1,0 +1,118 @@
+ArrayList<Word> words;
+ArrayList<String> caughtWords;
+String[] wordBank ={
+  "lune", "soleil", "vent", "fleur", "arbre", "pluie", "oiseau", "mer", "chemin", "cœur", "rêve", "étoile", "ombre", "feuille", "nuage", "montagne", "rivière", "forêt", "papillon", "rose", "brume", "aurore", "crépuscule",
+  "cascade", "clairière", "voile", "onde", "perle", "horizon", "cendre", "parfum", "silhouette",  "vibration", "lueur", "frisson", "pétale", "harmonie", "iris", "reflet", "nuance", "aube", "foudre", "rayon", "halo", "beau", "belle", "grand", "grande", "petit", "petite", "doux", "douce",
+  "lumineux", "lumineuse", "sombre", "chaud", "chaude", "froid", "froide", "rapide", "rapide", "lent", "lente", "tranquille", "tranquille", "léger", "légère", "fort", "forte", "fragile", "fragile", "joli", "jolie", 
+  "paisible", "paisible", "bruyant", "bruyante", "calme", "calme", "vif", "vive", "mouillé", "mouillée", "clair", "claire", "noir", "noire", "bleu", "bleue", "vert", "verte", "rouge", "rouge", "dur", "dure", "silencieux",
+  "silencieuse", "vivant", "vivante", "gentil", "gentille", "solide", "solide", "chaotique", "chaotique", "magique", "magique", "mystérieux", "mystérieuse", "frais", "fraîche", "ancien", "ancienne", "jovial", "joviale", 
+  "triste", "triste", "joyeux", "joyeuse", "sage", "sage", "fou", "folle", "heureux", "heureuse", "éteint", "éteinte", "doucement", "vite", "lentement", "silencieusement", "toujours", "parfois", "souvent", "ici", "là", "loin", 
+  "près", "bientôt", "déjà", "encore", "rarement", "gentiment", "fortement", "rapidement", "tristement", "joyeusement", "sereinement", "paisiblement", "bruyamment", "soudain", "tendrement", "calmement", "largement", "haut", "bas", 
+  "je", "tu", "il", "elle", "nous", "vous", "ils", "elles", "on", "moi", "toi", "lui", "elle", "eux", "elles","ce", "celui", "celle", "ceux", "celles", "qui", "que", "dont", "où", "le", "la", "les", "un", "une", "des", "mon", "ton", 
+  "son", "notre", "votre", "leur", "leurs", "ce", "cette", "ces", "quel", "quelle", "courir", "je cours", "tu cours", "il court", "nous courons", "vous courez", "ils courent", "chanter", "je chante", "tu chantes", "il chante",
+  "nous chantons", "vous chantez", "ils chantent", "briller", "je brille", "tu brilles", "il brille", "nous brillons", "vous brillez", "ils brillent", "tomber", "je tombe", "tu tombes", "il tombe", "nous tombons", "vous tombez",
+  "ils tombent", "voler", "je vole", "tu voles", "il vole", "nous volons", "vous volez", "ils volent", "pleurer", "je pleure", "tu pleures", "il pleure", "nous pleurons", "vous pleurez", "ils pleurent", "rire", "je ris", "tu ris",
+  "il rit", "nous rions", "vous riez", "ils rient", "sauter", "je saute", "tu sautes", "il saute", "nous sautons", "vous sautez", "ils sautent", "marcher", "je marche", "tu marches", "il marche", "nous marchons", "vous marchez",
+  "ils marchent", "dormir", "je dors", "tu dors", "il dort", "nous dormons", "vous dormez", "ils dorment", "ouvrir", "j’ouvre", "tu ouvres", "il ouvre", "nous ouvrons", "vous ouvrez", "ils ouvrent","sentir", "je sens", "tu sens", "il sent", "nous sentons", "vous sentez", "ils sentent", "regarder", "je regarde", "tu regardes", "il regarde",  
+  "nous regardons", "vous regardez", "ils regardent", "jouer", "je joue", "tu joues", "il joue", "nous jouons", "vous jouez", 
+  "ils jouent","toucher", "je touche", "tu touches", "il touche", "nous touchons", "vous touchez", "ils touchent", "danser", "je danse", "tu danses", "il danse", "nous dansons", "vous dansez", "ils dansent",
+  "partir", "je pars", "tu pars", "il part", "nous partons", "vous partez", "ils partent","arriver", "j’arrive", "tu arrives", "il arrive", "nous arrivons", "vous arrivez", "ils arrivent", "et", "mais", "ou", "donc", "or", 
+  "ni", "car", "ainsi", "puis", "tandis que", "alors", "cependant", "pourtant", "car", "ou bien",  "et", "mais", "ou",  "et", "mais", "ou", "et", "mais", "ou", "et", "mais", "ou", "et", "mais", "ou", "et", "mais", "ou", 
+  "et", "mais", "ou"};
+
+void setup() {
+  size(1600, 900);
+  textAlign(CENTER);
+  words = new ArrayList<Word>();
+  caughtWords = new ArrayList<String>();
+  textSize(20);
+}
+
+void draw() {
+  background(20, 20, 40);
+  
+
+  if (random(1) < 0.05) {   // Ajout d'un nouveau mot de temps en temps
+    words.add(new Word());
+ }
+  
+
+  for (int i = words.size() - 1; i >= 0; i--) {    // afficher et déplacer tous les mots qui tombent
+    Word w = words.get(i);
+    w.fall();
+    w.display();
+    
+                           
+    if (w.y > height -600) { // supprimer le mot
+      words.remove(i);
+   }
+  }
+  
+
+  fill(200, 220, 255);   // afficher la phrase composée en dessous
+  textSize(18);
+  String phrase = "";
+  for (String mot : caughtWords) {
+    phrase += mot + " ";
+ }
+  text(phrase, width/2, height - 400);
+  
+
+
+  fill(150, 150, 200);   // instructions
+  textSize(14);
+  text("Cliquez sur les mots pour composer votre phrase", width/2, height - 30);
+  text("ESPACE = effacer | ENTRÉE = nouvelle ligne", width/2,height- 15);
+}
+
+void mousePressed() {   // vérifier si on a cliqué sur un mot
+
+  for (int i = words.size() - 1; i >= 0; i--) {
+    Word w = words.get(i);
+    if (dist(mouseX, mouseY, w.x, w.y) < 40) {
+      caughtWords.add(w.text);
+      words.remove(i);
+      break;
+  }
+  }
+}
+
+void keyPressed() {
+  
+  if (key == ' ') {    // effacer la ou les phrases avec espace
+    caughtWords.clear();}
+   if (key == ENTER || key == RETURN) {
+    caughtWords.add("\n"); //aller à la ligne avec entrée
+  }
+}
+
+class Word {
+  float x, y;
+  float speed;
+  String text;
+  color col;
+  
+  Word() {
+    x = random(50, width - 50);
+    y = -20;
+    speed = random(0.3, 1);
+    text = wordBank[int(random(wordBank.length))];
+    col = color(random(150, 255), random(150, 255), random(200, 255));
+  }
+  
+  void fall() { //vitesse de descente
+    y += speed; }
+  
+  void display() {
+    boolean hover = dist(mouseX, mouseY, x, y) < 40; //si la souris est proche du mot
+    
+    if (hover) {
+      fill(255, 255, 255);
+      textSize(24); } 
+      else {
+      fill(col);
+      textSize(20);}
+    
+    text(text, x, y);
+  }
+}
