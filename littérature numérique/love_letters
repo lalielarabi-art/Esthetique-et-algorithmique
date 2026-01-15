@@ -1,0 +1,49 @@
+String[] adjectives = {
+  "darling", "sweet", "lovely", "adorable", "divine", "precious"
+};
+
+String[] nouns = {
+  "love", "heart", "soul", "passion", "desire", "angel"
+};
+
+String[] adverbs = {
+  "passionately", "tenderly", "desperately", "madly", "fondly"
+};
+
+String[] verbs = {
+  "adores", "longs for", "yearns for", "cherishes", "worships"
+};
+
+void setup() {
+  size(600, 400);
+  background(255);
+  fill(0);
+  textSize(18);
+  textAlign(LEFT, TOP);
+
+  generateLetter();
+}
+
+void generateLetter() {
+  String letter = "";
+
+  letter += "My " + randomWord(adjectives) + " " + randomWord(nouns) + " "
+          + randomWord(adverbs) + " " + randomWord(verbs)
+          + " your " + randomWord(adjectives) + " " + randomWord(nouns) + ".\n\n";
+
+  letter += "You are my " + randomWord(adjectives) + " "
+          + randomWord(nouns) + ".\n\n";
+
+  letter += "My " + randomWord(nouns) + " "
+          + randomWord(adverbs) + " " + randomWord(verbs) + " you.\n\n";
+
+  letter += "Yours " + randomWord(adverbs) + ",\n";
+
+
+  text(letter, 40, 40, width - 80, height - 80);
+}
+
+String randomWord(String[] words) {
+  int index = int(random(words.length));
+  return words[index];
+}
