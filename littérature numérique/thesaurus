@@ -1,0 +1,37 @@
+String[] adjectifs = {"douce", "triste", "lumineuse", "belle", "chaude"};
+String[] noms = {"nuit", "pensée", "folie", "larme", "âme"};
+String[] verbes = {"brûle", "chante", "danse", "pleure", "court"};
+String[] adverbes = {"lentement", "passionnément", "follement", "silencieusement", "doucement"};
+
+void setup() {
+  size(600, 400);
+  background(255);
+  fill(0);
+  textSize(18);
+  textAlign(LEFT, TOP);
+
+  generateChanson();
+}
+
+void generateChanson() {
+  String chanson = "";
+
+  // couplet 1
+  chanson += "Ma " + randomWord(adjectifs) + " " + randomWord(noms) + " "
+           + randomWord(verbes) + " " + randomWord(adverbes) + ".\n";
+
+  chanson += "Ta " + randomWord(adjectifs) + " " + randomWord(noms) + " "
+           + randomWord(verbes) + " dans mes rêves.\n\n";
+
+  // couplet 2
+  chanson += "Je " + randomWord(verbes) + " " + randomWord(adverbes) 
+           + " avec ma " + randomWord(noms) + ".\n";
+
+  chanson += "Ta " + randomWord(adjectifs) + " " + randomWord(noms) + " me fait rêver.\n";
+
+  text(chanson, 40, 40, width - 80, height - 80);
+}
+
+String randomWord(String[] mots) {
+  return mots[int(random(mots.length))];
+}
