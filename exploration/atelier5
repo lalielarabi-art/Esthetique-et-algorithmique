@@ -1,0 +1,123 @@
+// Palette de couleurs 
+color[] bleu = {color(15, 59, 128), color(28, 82, 135), color(42, 109, 164), color(65, 125, 180)};
+color[] jaune = {color(234, 193, 83), color(247, 220, 111), color(255, 235, 156), color(255, 242, 0)};
+color[] vert = {color(72, 101, 74), color(89, 125, 92), color(119, 158, 122)};
+color[] orange = {color(214, 106, 37), color(230, 126, 34), color(243, 156, 18)};
+color[] violet= {color(88, 66, 124), color(108, 86, 144), color(128, 106, 164)};
+
+ArrayList<Spirale> Spirales;
+
+void setup() {
+  size(1600, 900);
+  noLoop();
+  
+    Spirales = new ArrayList<Spirale>();
+   
+  for (int i = 0; i < 200; i++) {   // création de 200 spirales qui se chevauchent et sortent du cadre
+    float x = random(-50, width + 50);
+    float y = random(-50, height + 50);
+    float rayonMax = random(30, 120);
+    color[] palette = choisirPalette();
+    Spirales.add(new Spirale(x, y, rayonMax, palette));
+  }
+}
+
+void draw() {
+  background(5, 0, 61);
+
+  for (Spirale s : Spirales) {    // dessiner toutes les spirales
+    s.afficher();
+  }
+}
+
+color[] choisirPalette() {
+  float r = random(1);
+  if (r < 0.3) return jaune;
+  else if (r < 0.5) return bleu;
+ else if (r < 0.65) return orange;
+  else if (r < 0.8) return vert;
+ else return violet;
+}
+
+class Spirale {
+  float x, y, rayonMax;
+  color[] couleurs;
+  float rotation;
+  int nbTours;
+  float densite;
+  
+  Spirale(float X, float Y, float r, color[] c) {
+    x=X;
+    y=Y;
+    rayonMax = r;
+    couleurs = c;
+    rotation = random(TWO_PI);  //orientation de la spirale
+    nbTours = int(random(3, 7)); 
+    densite = random(0.05, 0.15);
+  }
+  
+  void afficher() {     // Dessin de la spirale avec des coups de pinceau
+    pushMatrix();
+    translate(x, y);
+    rotate(rotation);
+    
+
+    float angleMax = TWO_PI * nbTours;   
+    float rayon = 0;
+    
+    for (float angle = 0; angle < angleMax; angle += densite) {  //on incrémente en focntion de la densité de la spirale
+      rayon = (angle / angleMax) * rayonMax;  //on calcule le rayon actuel de la spirale qui correspond au pourcentage de spirale qu'on a deja parcouru multiplié par le rayon final de la spirale
+      
+      float px = cos(angle) * rayon;   //on calcule la position en passant des coordonées polaires en cartésiennes
+      float py = sin(angle) * rayon;
+      
+      
+      float tangentAngle = angle + HALF_PI; //On calcule la direction que doit avoir le trait qui doit être tangent à la spirale (90° + angle)
+      
+      
+      for (int i = 0; i < 3; i++) { // pour chaque point de la spirale on superpose 3 traits
+        strokeWeight(random(1, 5));
+        stroke(couleurs[int(random(couleurs.length))], random(180, 255)); //opacité et couleur raléatoire du trait
+        
+        float longueur = random(8, 18); // Longueur aléatoire du trait
+        
+        float offsetX = random(-3, 3); //décalage aléatoire pour éviter que les 3 traits soit superposés
+        float offsetY = random(-3, 3);
+        
+        float x1 = px + offsetX + cos(tangentAngle) * longueur; //positon des points (x2,y2) et (x1,y1) avec (px,py) "au centre"
+        float y1 = py + offsetY + sin(tangentAngle) * longueur;
+        float x2 = px + offsetX - cos(tangentAngle) * longueur;
+        float y2 = py + offsetY - sin(tangentAngle) * longueur;
+        
+
+        noFill();
+        strokeCap(ROUND); //bouts arrondis
+        beginShape(); 
+        vertex(x2, y2);  //commence la forme au point (x2,y2)
+        
+
+        float midX = (x1 + x2) / 2 + random(-4, 4); //calcul du milieu entre x1 et x2 et ajout d'un décalage pour la courbure
+        float midY = (y1 + y2) / 2 + random(-4, 4);
+        quadraticVertex(midX, midY, x1, y1);  //courbe de bézier quadratique
+        endShape();
+     }
+    }
+    
+    popMatrix();
+  }
+}
+void ajouterSpirales() { 
+ 
+  for (int i = 0; i < 50; i++) {
+    float x = random(-50, width + 50);
+    float y = random(-50, height + 50);
+    float taille = random(30, 120);
+    color[] palette = choisirPalette();
+    Spirales.add(new Spirale(x, y, taille, palette));
+  }
+}
+void mousePressed() {  // ajout de 50 nouvelles spirales au clic
+  ajouterSpirales();
+  redraw();
+}
+
