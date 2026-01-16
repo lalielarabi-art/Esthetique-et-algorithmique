@@ -106,18 +106,19 @@ class Spirale {
     popMatrix();
   }
 }
-void ajouterSpirales() { 
+
+void ajouterSpirales() {  // Ajout d'une nouvelle spirale au clic
  
-  for (int i = 0; i < 50; i++) {
-    float x = random(-50, width + 50);
-    float y = random(-50, height + 50);
+    float x = mouseX;
+    float y = mouseY;
     float taille = random(30, 120);
     color[] palette = choisirPalette();
     Spirales.add(new Spirale(x, y, taille, palette));
   }
-}
-void mousePressed() {  // ajout de 50 nouvelles spirales au clic
+
+void mousePressed() {
   ajouterSpirales();
   redraw();
 }
+
 
